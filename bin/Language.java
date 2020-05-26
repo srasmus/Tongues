@@ -157,7 +157,7 @@ public class Language{
         Language lang = new Language();
         System.out.println("\n\n");
         try {
-            Scanner scanner = new Scanner(new File("corpusIPA.txt"));
+            Scanner scanner = new Scanner(new File("bin/corpus/corpusNames.txt"));
 			while (scanner.hasNextLine()) {
                 String word = scanner.nextLine();
                 lang.readWord(word);
