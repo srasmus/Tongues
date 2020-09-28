@@ -1,23 +1,17 @@
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Map.Entry;
-
-import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.Map.Entry;
 
-public class Language{
+public class Generator{
     public Map<Pair<Character,Character>,Integer> letters;
     public Map<Character,Integer> firstLetters;
     public Map<Integer,Integer> wordLengths;
     int numWords;
 
-    public Language(){
+    public Generator(){
         this.letters = new HashMap<>();
         this.firstLetters = new HashMap<>();
         this.wordLengths = new HashMap<>();
@@ -47,8 +41,8 @@ public class Language{
                 char prevChar = chars[i-1];
                 char currChar = chars[i];
                 for (Map.Entry<Pair<Character,Character>,Integer> entry : letters.entrySet()){
-                    if(entry.getKey().getKey() == prevChar &&
-                        entry.getKey().getValue() == currChar){
+                    if(entry.getKey().getA() == prevChar &&
+                        entry.getKey().getB() == currChar){
                             int curr = entry.getValue();
                             entry.setValue(curr + 1);
                             inList = true;
@@ -125,18 +119,18 @@ public class Language{
         for(int i = 1; i < len; i++){
             int num = 0;
             for(Map.Entry<Pair<Character,Character>, Integer> entry : letters.entrySet() ){
-                if(entry.getKey().getKey() == currChar){
+                if(entry.getKey().getA() == currChar){
                     num += entry.getValue();
                 }
             }
             chance = 0;
             Map<Character,Double> newLetters = new HashMap<>();
             for(Map.Entry<Pair<Character,Character>, Integer> entry : letters.entrySet() ){
-                if(entry.getKey().getKey() == currChar){
+                if(entry.getKey().getA() == currChar){
                     double value = entry.getValue();
                     double perc = num; 
                     chance += value / perc;
-                    newLetters.put(entry.getKey().getValue(), chance);
+                    newLetters.put(entry.getKey().getB(), chance);
                 }
             }
             newLetters = sortByValue(newLetters);
@@ -151,25 +145,5 @@ public class Language{
     
         }
         return word;
-    }
-
-    public static void main(String[] args){
-        Language lang = new Language();
-        System.out.println("\n\n");
-        try {
-            Scanner scanner = new Scanner(new File("bin/corpus/corpusNames.txt"));
-			while (scanner.hasNextLine()) {
-                String word = scanner.nextLine();
-                lang.readWord(word);
-			}
-            scanner.close();
-        } 
-        catch (FileNotFoundException e) {
-			e.printStackTrace();
-        }
-        
-        for(int i = 0; i <= 100; i++){
-            System.out.println(lang.generateWord());
-        }
     }
 }

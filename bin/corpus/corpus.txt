@@ -152,7 +152,7 @@ straw
 texture
 railroad
 clothes
-Venus
+venus
 kill
 emotion
 particle
@@ -262,7 +262,7 @@ theater
 steam
 yearn
 clock
-Koran
+koran
 chair
 determine
 disgrace
@@ -973,7 +973,7 @@ cater
 applied
 decoration
 sweater
-Bible
+bible
 sacrifice
 motorist
 distinct
