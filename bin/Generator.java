@@ -18,6 +18,10 @@ public class Generator{
         numWords = 0;
     }
 
+    /**
+     *Reads a word and enters the information into the generator's data bank.
+     * @param word The word being read.
+     */
     public void readWord(String word){
         char[] chars = word.toCharArray();
         int wordLength = chars.length;
@@ -65,18 +69,11 @@ public class Generator{
             wordLengths.put(wordLength,1);
         }
     }
-    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
-        list.sort(Entry.comparingByValue());
 
-        Map<K, V> result = new LinkedHashMap<>();
-        for (Entry<K, V> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-
-        return result;
-    }
-
+    /**
+     *Generates a word using the generator's data.
+     *@return A new word from previously stored data.
+     */
     public String generateWord(){
         int len = 0;
         double chance = 0;
@@ -145,5 +142,17 @@ public class Generator{
     
         }
         return word;
+    }
+
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 }
