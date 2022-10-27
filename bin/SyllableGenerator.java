@@ -5,30 +5,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class Generator{
+public class SyllableGenerator{
     public Map<Pair<Character,Character>,Integer> letters;
     public Map<Character,Integer> firstLetters;
+    public Map<Character,Integer> lastLetters;
     public Map<Integer,Integer> wordLengths;
     int numWords;
 
-    public Generator(){
+    public SyllableGenerator(){
         this.letters = new HashMap<>();
         this.firstLetters = new HashMap<>();
+        this.lastLetters = new HashMap<>();
         this.wordLengths = new HashMap<>();
         numWords = 0;
     }
 
     /**
-     *Reads a word and enters the information into the generator's data bank.
-     * @param word The word being read.
+     *Reads a syllable and enters the information into the generator's data bank.
+     * @param syll The syllable being read.
      */
-    public void readWord(String word){
-        char[] chars = word.toCharArray();
+    public void read(String syll){
+        char[] chars = syll.toCharArray();
         int wordLength = chars.length;
         numWords++;
 
         for(int i = 0; i < chars.length; i++){
+            //Read first letter, log into firstLetters along with the count of occurrences
             if(i == 0){
+                //Check if value is already in the list, if it is, increment the count
                 boolean inList = false;
                 for (Map.Entry<Character,Integer> entry : firstLetters.entrySet()){
                     if(entry.getKey().charValue() == chars[i]){
@@ -37,6 +41,7 @@ public class Generator{
                         entry.setValue(curr  + 1);    
                     }
                 }
+                //If it isn't in the list, add a new entry
                 if(!inList){
                     firstLetters.put(chars[i], 1);
                 }
@@ -55,6 +60,22 @@ public class Generator{
                 if(!inList){
                     letters.put(new Pair<Character,Character>(prevChar,currChar), 1);
                 }
+                //Read last letter, log into firstLetters along with the count of occurrences
+                if(i == wordLength - 1){
+                    //Check if value is already in the list, if it is, increment the count
+                    inList = false;
+                    for (Map.Entry<Character,Integer> entry : lastLetters.entrySet()){
+                        if(entry.getKey().charValue() == chars[i]){
+                            inList = true;
+                            int curr = entry.getValue();
+                            entry.setValue(curr  + 1);    
+                        }
+                    }
+                    //If it isn't in the list, add a new entry
+                    if(!inList){
+                        lastLetters.put(chars[i], 1);
+                    }
+                }
             }
         }
         boolean inList = false;
@@ -70,11 +91,12 @@ public class Generator{
         }
     }
 
+    //TODO: Utilize lastLetter in word generation 
     /**
-     *Generates a word using the generator's data.
-     *@return A new word from previously stored data.
+     *Generates a syllable using the generator's data.
+     *@return A new syllable from previously stored data.
      */
-    public String generateWord(){
+    public String generate(){
         int len = 0;
         double chance = 0;
         Map<Integer,Double> newWordLengths = new HashMap<>();
